@@ -5,6 +5,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Minigame extends JavaPlugin {
 	
+	/**
+	 * TODO: EVERYTHING
+	 */
 	public void onEnable() {
 		Bukkit.getServer().getLogger().info("[Minigame] Enabled!");
 	}
