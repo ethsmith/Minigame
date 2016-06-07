@@ -11,6 +11,8 @@ public class Minigame extends JavaPlugin {
 	 * TODO: EVERYTHING
 	 */
 	public void onEnable() {
+		Bukkit.getServer().getLogger().info("[Minigame] Setting gamestate!");
+		GameState.setState(GameState.LOBBY_STATE);
 		Bukkit.getServer().getLogger().info("[Minigame] Enabled!");
 	}
 	
