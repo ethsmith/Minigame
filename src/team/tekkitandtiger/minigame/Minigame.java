@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.huskehhh.mysql.mysql.MySQL;
 
 import team.tekkitandtiger.minigame.commands.MGCommand;
+import team.tekkitandtiger.minigame.teams.TeamHandler;
 
 public class Minigame extends JavaPlugin {
 	
@@ -35,6 +36,8 @@ public class Minigame extends JavaPlugin {
 		}
 		Bukkit.getServer().getLogger().info("[Minigame] Setting gamestate!");
 		GameState.setState(GameState.LOBBY_STATE);
+		Bukkit.getServer().getLogger().info("[Minigame] Registering teams...");
+		TeamHandler.addTeams();
 		Bukkit.getServer().getLogger().info("[Minigame] Enabled!");
 	}
 	
