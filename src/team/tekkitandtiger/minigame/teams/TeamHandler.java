@@ -2,6 +2,8 @@ package team.tekkitandtiger.minigame.teams;
 
 import java.util.ArrayList;
 
+import org.bukkit.entity.Player;
+
 import team.tekkitandtiger.minigame.PlayerQueue;
 
 public class TeamHandler {
@@ -18,11 +20,7 @@ public class TeamHandler {
 	}
 	
 	public void populateTeams() {
-//		for(String player : PlayerQueue.players) {
-//			for(int i = 0; i < numOfPlayers; i++) {
-//				
-//			}
-//		}
+		
 	}
 	
 	public void setId() {

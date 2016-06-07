@@ -3,6 +3,7 @@ package team.tekkitandtiger.minigame.commands;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,6 +35,8 @@ public class MGCommand implements CommandExecutor {
 						case "join":
 							if(GameState.getCurrentState() == GameState.LOBBY_STATE) {
 								PlayerQueue.addPlayer(sender.getName());
+								Player player = (Player) sender;
+								String id = player.getUniqueId().toString();
 								Bukkit.broadcastMessage(ChatColor.BLUE + "[Minigame] Player " + sender.getName() + " has been added to the game!");
 								break;
 							} else {
