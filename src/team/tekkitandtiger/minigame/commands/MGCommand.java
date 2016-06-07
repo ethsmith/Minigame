@@ -48,9 +48,9 @@ public class MGCommand implements CommandExecutor {
 						case "stats":
 							sender.sendMessage(ChatColor.BLUE + "===== STATS =====");
 							/**
-							 * I haven't done database stuff before,
-							 * so this probably won't work lol
-							 * TODO: Database handling in Java
+							 * I haven't done database stuff in java
+							 * before so this probably won't work lol
+							 * TODO: Research database handling in Java
 							 * Why can't it be PHP :P
 							 */
 							String dbhost = mg.getConfig().getString("db_host");
