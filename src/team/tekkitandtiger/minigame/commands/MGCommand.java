@@ -80,9 +80,9 @@ public class MGCommand implements CommandExecutor {
 								Bukkit.getServer().getLogger().severe("[Minigame] Couldn't go to next row with level.next()");
 								e1.printStackTrace();
 							}
-							int totalExp = 0;
+							int expNeeded = 0;
 							try {
-								totalExp = exp.getInt("level") * 132;
+								expNeeded = exp.getInt("level") * 32;
 							} catch (SQLException e) {
 								sender.sendMessage(ChatColor.RED + "[Minigame] Couldn't retrieve exp needed!");
 								e.printStackTrace();
@@ -94,7 +94,7 @@ public class MGCommand implements CommandExecutor {
 								e.printStackTrace();
 							}
 							try {
-								sender.sendMessage(ChatColor.BLUE + "Exp: " + exp.getInt("experience") + "/" + totalExp);
+								sender.sendMessage(ChatColor.BLUE + "Exp: " + exp.getInt("experience") + "/" + expNeeded);
 							} catch (SQLException e) {
 								sender.sendMessage(ChatColor.RED + "[Minigame] Couldn't retrieve your exp points!");
 								e.printStackTrace();
