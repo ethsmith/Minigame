@@ -3,7 +3,6 @@ package team.tekkitandtiger.minigame.commands;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,6 +14,8 @@ import org.bukkit.entity.Player;
 import team.tekkitandtiger.minigame.GameState;
 import team.tekkitandtiger.minigame.Minigame;
 import team.tekkitandtiger.minigame.PlayerQueue;
+import team.tekkitandtiger.minigame.teams.TeamHandler;
+import team.tekkitandtiger.minigame.teams.TeamType;
 
 public class MGCommand implements CommandExecutor {
 	
@@ -35,8 +36,14 @@ public class MGCommand implements CommandExecutor {
 						case "join":
 							if(GameState.getCurrentState() == GameState.LOBBY_STATE) {
 								PlayerQueue.addPlayer(sender.getName());
-								Player player = (Player) sender;
-								String id = player.getUniqueId().toString();
+								int i = 0;
+								for(Player player : Bukkit.getOnlinePlayers()) {
+									if(i < Bukkit.getOnlinePlayers().size() / 2) {
+										TeamHandler.addPlayer(TeamType.RED, player);
+									} else {
+										TeamHandler.addPlayer(TeamType.BLUE, player);
+									}
+								}
 								Bukkit.broadcastMessage(ChatColor.BLUE + "[Minigame] Player " + sender.getName() + " has been added to the game!");
 								break;
 							} else {
@@ -44,7 +51,9 @@ public class MGCommand implements CommandExecutor {
 								break;
 							}
 						case "leave":
+							Player player = (Player) sender;
 							PlayerQueue.removePlayer(sender.getName());
+							TeamHandler.removePlayer(player);
 							Bukkit.broadcastMessage(ChatColor.BLUE + "[Minigame] Player " + sender.getName() + " has left the game!");
 							break;
 						case "stats":
@@ -103,6 +112,9 @@ public class MGCommand implements CommandExecutor {
 								e.printStackTrace();
 							}
 							break;
+						case "team":
+							Player player2 = (Player) sender;
+							sender.sendMessage(ChatColor.BLUE + "[Minigame] You are on the " + TeamHandler.getTeamType(player2).name() + " team.");
 						default:
 							sender.sendMessage(ChatColor.RED + "[Minigame] Unknown Command!");
 							break;

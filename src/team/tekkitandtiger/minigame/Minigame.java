@@ -36,12 +36,14 @@ public class Minigame extends JavaPlugin {
 		}
 		Bukkit.getServer().getLogger().info("[Minigame] Setting gamestate!");
 		GameState.setState(GameState.LOBBY_STATE);
-		Bukkit.getServer().getLogger().info("[Minigame] Registering teams...");
-		TeamHandler.addTeams();
+		Bukkit.getServer().getLogger().info("[Minigame] Clearing teams of players! (Just to be safe.)");
+		TeamHandler.clearTeams();
 		Bukkit.getServer().getLogger().info("[Minigame] Enabled!");
 	}
 	
 	public void onDisable() {
+		Bukkit.getServer().getLogger().info("[Minigame] Clearing teams!");
+		TeamHandler.clearTeams();
 		Bukkit.getServer().getLogger().info("[Minigame] Disabled!");
 	}
 	
