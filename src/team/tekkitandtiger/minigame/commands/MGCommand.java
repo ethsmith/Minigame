@@ -1,5 +1,8 @@
 package team.tekkitandtiger.minigame.commands;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,7 +12,6 @@ import org.bukkit.entity.Player;
 
 import ovh.isreborn.jesus_crie.databaseapi.mysql.MyDatabase;
 import ovh.isreborn.jesus_crie.databaseapi.mysql.MySqlAPI;
-import ovh.isreborn.jesus_crie.databaseapi.mysql.MyTable;
 import team.tekkitandtiger.minigame.GameState;
 import team.tekkitandtiger.minigame.Minigame;
 import team.tekkitandtiger.minigame.PlayerQueue;
@@ -45,6 +47,12 @@ public class MGCommand implements CommandExecutor {
 							break;
 						case "stats":
 							sender.sendMessage(ChatColor.BLUE + "===== STATS =====");
+							/**
+							 * I haven't done database stuff before,
+							 * so this probably won't work lol
+							 * TODO: Database handling in Java
+							 * Why can't it be PHP :P
+							 */
 							String dbhost = mg.getConfig().getString("db_host");
 							String dbuser = mg.getConfig().getString("db_user");
 						    String dbport = mg.getConfig().getString("db_port");
@@ -52,13 +60,22 @@ public class MGCommand implements CommandExecutor {
 							String dbname = mg.getConfig().getString("db_name");
 							
 							MyDatabase db = MySqlAPI.getDataBase(dbhost, dbport, dbname, dbuser, dbpass);
+							db.rawExecute("CREATE TABLE stats ( player VARCHAR(32) NOT NULL ,  level INT(32) NOT NULL ,  experience INT(32) NOT NULL ,    PRIMARY KEY  (player))");
 							db.registerTable("stats");
-							MyTable table = db.getTable("stats");
-							table.create();
-							db.rawExecute("");
+							ResultSet level = db.rawRequest("SELECT level FROM stats WHERE player = '" + sender.getName() + "'");
+							int totalExp = 0;
+							try {
+								totalExp = level.getInt("experience");
+							} catch (SQLException e) {
+								e.printStackTrace();
+							}
+							ResultSet exp = db.rawRequest("SELECT level FROM stats WHERE player = '" + sender.getName() + "'");
+							sender.sendMessage(ChatColor.BLUE + "Level: " + level);
+							sender.sendMessage(ChatColor.BLUE + "Exp: " + exp + "/" + totalExp);
 							break;
 						default:
 							sender.sendMessage(ChatColor.RED + "[Minigame] Unknown Command!");
+							break;
 						}
 					}
 				}
