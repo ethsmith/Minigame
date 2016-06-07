@@ -9,5 +9,9 @@ public class PlayerQueue {
 	public static void addPlayer(String name) {
 		players.add(name);
 	}
+	
+	public static void removePlayer(String name) {
+		players.remove(name);
+	}
 
 }

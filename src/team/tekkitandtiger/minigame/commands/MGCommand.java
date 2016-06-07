@@ -34,6 +34,7 @@ public class MGCommand implements CommandExecutor {
 								break;
 							}
 						case "leave":
+							PlayerQueue.removePlayer(sender.getName());
 							Bukkit.broadcastMessage(ChatColor.BLUE + "[Minigame] Player " + sender.getName() + " has left the game!");
 							break;
 						case "stats":
@@ -48,5 +49,4 @@ public class MGCommand implements CommandExecutor {
 		}
 		return true;
 	}
-
 }
