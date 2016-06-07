@@ -1,5 +1,6 @@
 package team.tekkitandtiger.minigame.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,8 +21,18 @@ public class MGCommand implements CommandExecutor {
 						sender.sendMessage(ChatColor.BLUE + "[Minigame] Do /mg join to join a game!");
 						return true;
 					} else if(args.length == 1) {
-						if(args[0] == "join") {
-							sender.sendMessage(ChatColor.BLUE + "[Minigame] Adding player " + sender.getName() + " to join queue!");
+						switch(args[0]) {
+						case "join":
+							sender.sendMessage(ChatColor.BLUE + "[Minigame] Player " + sender.getName() + " has been added to the game!");
+							break;
+						case "leave":
+							Bukkit.broadcastMessage(ChatColor.BLUE + "[Minigame] Player " + sender.getName() + " has left the game!");
+							break;
+						case "stats":
+							sender.sendMessage(ChatColor.BLUE + "===== STATS =====");
+							break;
+						default:
+							sender.sendMessage(ChatColor.RED + "[Minigame] Unknown Command!");
 						}
 					}
 				}
