@@ -2,6 +2,7 @@ package team.tekkitandtiger.minigame.commands;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,8 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import ovh.isreborn.jesus_crie.databaseapi.mysql.MyDatabase;
-import ovh.isreborn.jesus_crie.databaseapi.mysql.MySqlAPI;
 import team.tekkitandtiger.minigame.GameState;
 import team.tekkitandtiger.minigame.Minigame;
 import team.tekkitandtiger.minigame.PlayerQueue;
@@ -47,31 +46,59 @@ public class MGCommand implements CommandExecutor {
 							break;
 						case "stats":
 							sender.sendMessage(ChatColor.BLUE + "===== STATS =====");
-							/**
-							 * I haven't done database stuff in java
-							 * before so this probably won't work lol
-							 * TODO: Research database handling in Java
-							 * Why can't it be PHP :P
-							 */
-							String dbhost = mg.getConfig().getString("db_host");
-							String dbuser = mg.getConfig().getString("db_user");
-						    String dbport = mg.getConfig().getString("db_port");
-							String dbpass = mg.getConfig().getString("db_pass");
-							String dbname = mg.getConfig().getString("db_name");
 							
-							MyDatabase db = MySqlAPI.getDataBase(dbhost, dbport, dbname, dbuser, dbpass);
-							db.rawExecute("CREATE TABLE stats ( player VARCHAR(32) NOT NULL ,  level INT(32) NOT NULL ,  experience INT(32) NOT NULL ,    PRIMARY KEY  (player))");
-							db.registerTable("stats");
-							ResultSet level = db.rawRequest("SELECT level FROM stats WHERE player = '" + sender.getName() + "'");
+							Statement statement = null;
+							try {
+								statement = mg.c.createStatement();
+							} catch (SQLException e1) {
+								Bukkit.getServer().getLogger().severe("[Minigame] Couldn't create statement!");
+								e1.printStackTrace();
+							}
+							ResultSet level = null;
+							try {
+								level = statement.executeQuery("SELECT level FROM stats WHERE player = '" + sender.getName() + "';");
+							} catch (SQLException e1) {
+								Bukkit.getServer().getLogger().severe("[Minigame] Couldn't execute query!");
+								e1.printStackTrace();
+							}
+							try {
+								level.next();
+							} catch (SQLException e1) {
+								Bukkit.getServer().getLogger().severe("[Minigame] Couldn't go to next row with level.next()");
+								e1.printStackTrace();
+							}
+							ResultSet exp = null;
+							try {
+								exp = statement.executeQuery("SELECT experience FROM stats WHERE player = '" + sender.getName() + "';");
+							} catch (SQLException e1) {
+								Bukkit.getServer().getLogger().severe("[Minigame] Couldn't execute query!");
+								e1.printStackTrace();
+							}
+							try {
+								exp.next();
+							} catch (SQLException e1) {
+								Bukkit.getServer().getLogger().severe("[Minigame] Couldn't go to next row with level.next()");
+								e1.printStackTrace();
+							}
 							int totalExp = 0;
 							try {
-								totalExp = level.getInt("experience");
+								totalExp = exp.getInt("level") * 132;
 							} catch (SQLException e) {
+								sender.sendMessage(ChatColor.RED + "[Minigame] Couldn't retrieve exp needed!");
 								e.printStackTrace();
 							}
-							ResultSet exp = db.rawRequest("SELECT level FROM stats WHERE player = '" + sender.getName() + "'");
-							sender.sendMessage(ChatColor.BLUE + "Level: " + level);
-							sender.sendMessage(ChatColor.BLUE + "Exp: " + exp + "/" + totalExp);
+							try {
+								sender.sendMessage(ChatColor.BLUE + "Level: " + level.getInt("level"));
+							} catch (SQLException e) {
+								sender.sendMessage(ChatColor.RED + "[Minigame] Couldn't retrieve level!");
+								e.printStackTrace();
+							}
+							try {
+								sender.sendMessage(ChatColor.BLUE + "Exp: " + exp.getInt("experience") + "/" + totalExp);
+							} catch (SQLException e) {
+								sender.sendMessage(ChatColor.RED + "[Minigame] Couldn't retrieve your exp points!");
+								e.printStackTrace();
+							}
 							break;
 						default:
 							sender.sendMessage(ChatColor.RED + "[Minigame] Unknown Command!");
