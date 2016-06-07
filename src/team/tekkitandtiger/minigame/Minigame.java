@@ -7,10 +7,13 @@ import team.tekkitandtiger.minigame.commands.MGCommand;
 
 public class Minigame extends JavaPlugin {
 	
+	public static Minigame instance; 
+	
 	/**
 	 * TODO: EVERYTHING
 	 */
 	public void onEnable() {
+		instance = this;
 		Bukkit.getServer().getLogger().info("[Minigame] Setting gamestate!");
 		GameState.setState(GameState.LOBBY_STATE);
 		Bukkit.getServer().getLogger().info("[Minigame] Enabled!");
