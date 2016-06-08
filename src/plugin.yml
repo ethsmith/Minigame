@@ -1,0 +1,11 @@
+name: Minigame
+version: 1.0
+main: team.tekkitandtiger.minigame.Minigame
+author: TekkitCommando
+description: Minigame.
+depend: [MySQLBukkit]
+
+commands:
+    mg:
+        usage: /<command>
+        description: Minigame command.

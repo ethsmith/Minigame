@@ -31,7 +31,7 @@ public class MGCommand implements CommandExecutor {
 					if(args.length == 0) {
 						sender.sendMessage(ChatColor.BLUE + "[Minigame] Do /mg join to join a game!");
 						return true;
-					} else if(args.length == 1) {
+					} else if(args.length > 0) {
 						switch(args[0]) {
 						case "join":
 							if(GameState.getCurrentState() == GameState.LOBBY_STATE) {
